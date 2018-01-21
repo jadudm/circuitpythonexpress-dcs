@@ -34,6 +34,10 @@ X           = 0
 Y           = 1
 Z           = 2
 
+RED         = 0
+GREEN       = 1
+BLUE        = 2
+
 def set_brightness (brightness = 10):
     cpx.pixels.brightness = (brightness / 100.0)
 
@@ -46,6 +50,15 @@ def set_all_pixels_to (red = 0, green = 0, blue = 0):
     for i in range(10):
         cpx.pixels[i] = (red, green, blue)
 
+def set_pixel (ndx = 0, red = 0, green = 0, blue = 0):
+    cpx.pixels[ndx] = (red, green, blue)
+    
+def get_pixel (ndx = 0, color = None):
+    if color:
+        return cpx.pixels[ndx][color]
+    else:
+        return cpx.pixels[ndx][color]
+        
 def setup_single_tap ():
     cpx.detect_taps = 1
 def setup_double_tap ():

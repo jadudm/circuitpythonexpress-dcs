@@ -12,3 +12,8 @@ while True:
         toggle = not toggle
     if was_pressed(BUTTONB):
         print(accel(X))
+        color = get_pixel(1, RED)
+        if color == 255:
+            set_pixel(1, 0, 255, 0)
+        else:
+            set_pixel(1, 255, 0, 0)
