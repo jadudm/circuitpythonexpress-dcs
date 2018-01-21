@@ -8,6 +8,7 @@ toggle = True
 count = 0 
 while True:
     watch_buttons()
+
     if was_pressed(BUTTONA):
         red_led(toggle)
         toggle = not toggle
