@@ -5,11 +5,15 @@ setup_pixels(brightness = 1)
 
 toggle = True
 
+count = 0 
 while True:
     watch_buttons()
     if was_pressed(BUTTONA):
         red_led(toggle)
         toggle = not toggle
+        count += 1
+        graph(count, 100)
+        
     if was_pressed(BUTTONB):
         print(accel(X))
         color = get_pixel(1, RED)

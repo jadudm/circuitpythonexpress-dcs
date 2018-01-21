@@ -58,7 +58,28 @@ def get_pixel (ndx = 0, color = None):
         return cpx.pixels[ndx][color]
     else:
         return cpx.pixels[ndx][color]
+
+def color_wheel (pos):
+	if pos < 85:
+		return (pos * 3, 255 - pos * 3, 0)
+	elif pos < 170:
+		pos -= 85
+		return (255 - pos * 3, 0, pos * 3)
+	else:
+		pos -= 170
+		return (0, pos * 3, 255 - pos * 3)
         
+def graph (value, max):
+    if (value < max):
+        percent = (float(value) / max)
+        max_ndx = int(10 * percent)
+        for i in range(0, max_ndx):
+            cpx.pixels[i] = color_wheel(int((i / 10.0) * 255.0))
+    else:
+        for i in range(0, 10):
+            cpx.pixels[i] = color_wheel(int((i / 10.0) * 255.0))
+
+
 def setup_single_tap ():
     cpx.detect_taps = 1
 def setup_double_tap ():
