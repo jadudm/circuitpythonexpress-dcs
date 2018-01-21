@@ -10,3 +10,5 @@ while True:
     if was_pressed(BUTTONA):
         red_led(toggle)
         toggle = not toggle
+    if was_pressed(BUTTONB):
+        print(accel(X))

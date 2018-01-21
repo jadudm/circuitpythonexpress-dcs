@@ -30,6 +30,10 @@ BUTTONA     = 0
 BUTTONB     = 1
 BUTTONAB    = 2
 
+X           = 0
+Y           = 1
+Z           = 2
+
 def set_brightness (brightness = 10):
     cpx.pixels.brightness = (brightness / 100.0)
 
@@ -49,6 +53,16 @@ def setup_double_tap ():
 
 def was_tapped ():
     return cpx.tapped
+
+# CONTRACT
+# accel : int -> float
+# PURPOSE
+# Returns a floating point value for the acceleration in the 
+# dimension given. Ranges from -9.8 to 9.8
+# I lied. It gets big. > 50 when shaken. Just using it as a 
+# tilt sensor, it ranges from -9.8 to 9.8... 
+def accel (DIM = X):
+    return cpx.acceleration[DIM]
 
 def red_led(onoroff):
     cpx.red_led = onoroff
