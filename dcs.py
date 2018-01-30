@@ -30,9 +30,9 @@ BUTTONA     = 0
 BUTTONB     = 1
 BUTTONAB    = 2
 
-X_AXIS      = 0
-Y_AXIS      = 1
-Z_AXIS      = 2
+XAXIS       = 0
+YAXIS       = 1
+ZAXIS       = 2
 
 RED         = 0
 GREEN       = 1
@@ -104,7 +104,7 @@ def wasTapped ():
 # dimension given. Ranges from -9.8 to 9.8
 # I lied. It gets big. > 50 when shaken. Just using it as a 
 # tilt sensor, it ranges from -9.8 to 9.8... 
-def getAccel (DIM = X_AXIS):
+def getAccel (DIM = XAXIS):
     return cpx.acceleration[DIM]
 
 def turnRedLED(onoroff):
