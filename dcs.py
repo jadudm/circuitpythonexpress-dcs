@@ -30,36 +30,45 @@ BUTTONA     = 0
 BUTTONB     = 1
 BUTTONAB    = 2
 
-X           = 0
-Y           = 1
-Z           = 2
+X_AXIS      = 0
+Y_AXIS      = 1
+Z_AXIS      = 2
 
 RED         = 0
 GREEN       = 1
 BLUE        = 2
+YELLOW      = 3
+BLUEGREEN   = 4
+PURPLE      = 5
 
-def set_brightness (brightness = 10):
+
+def setBrightness (brightness = 10):
     cpx.pixels.brightness = (brightness / 100.0)
 
-def setup_pixels (brightness = 10):
-    set_brightness(brightness)
+def setupPixels (brightness = 10):
+    setBrightness(brightness)
     cpx.pixels.fill((0,0,0))
     cpx.pixels.show()
 
-def set_all_pixels_to (red = 0, green = 0, blue = 0):
+def setAllPixelsTo (color = RED):
+    if color == RED:
+        setAllPixelsToRGB(255, 0, 0)
+    elif color == GREEN:
+
+def setAllPixelsToRGB (red = 0, green = 0, blue = 0):
     for i in range(10):
         cpx.pixels[i] = (red, green, blue)
 
-def set_pixel (ndx = 0, red = 0, green = 0, blue = 0):
+def setPixelRGB (ndx = 0, red = 0, green = 0, blue = 0):
     cpx.pixels[ndx] = (red, green, blue)
     
-def get_pixel (ndx = 0, color = None):
+def getPixelRGB (ndx = 0, color = None):
     if color:
         return cpx.pixels[ndx][color]
     else:
         return cpx.pixels[ndx][color]
 
-def color_wheel (pos):
+def colorWheel (pos):
 	if pos < 85:
 		return (pos * 3, 255 - pos * 3, 0)
 	elif pos < 170:
@@ -80,12 +89,12 @@ def graph (value, max):
             cpx.pixels[i] = color_wheel(int((i / 10.0) * 255.0))
 
 
-def setup_single_tap ():
+def setupSingleTap ():
     cpx.detect_taps = 1
-def setup_double_tap ():
+def setupDoubleTab ():
     cpx.detect_taps = 2
 
-def was_tapped ():
+def wasTapped ():
     return cpx.tapped
 
 # CONTRACT
@@ -95,30 +104,30 @@ def was_tapped ():
 # dimension given. Ranges from -9.8 to 9.8
 # I lied. It gets big. > 50 when shaken. Just using it as a 
 # tilt sensor, it ranges from -9.8 to 9.8... 
-def accel (DIM = X):
+def getAccel (DIM = X_AXIS):
     return cpx.acceleration[DIM]
 
-def red_led(onoroff):
+def turnRedLED(onoroff):
     cpx.red_led = onoroff
 
-def touch_on(pin):
+def isTouched(pin):
     touches = [cpx.touch_A1, cpx.touch_A2, cpx.touch_A3, cpx.touch_A4, 
                 cpx.touch_A5, cpx.touch_A6, cpx.touch_A7 ]
     return touches[pin - 1]
 
-def get_lux ():
+def getLux ():
     return cpx.light
 
-def get_temperature ():
+def getTemperatureC ():
     return cpx.temperature
 
-def play_tone (tone = 256):
+def startTone (tone = 256):
     cpx.start_tone(tone)
 
-def stop_tone ():
+def stopTone ():
     cpx.stop_tone()
 
-def is_pressed(button = BUTTONA):
+def isPressed(button = BUTTONA):
     if (button == BUTTONA):
         return cpx.button_a
     else:
@@ -146,12 +155,12 @@ class DebouncedButton(object):
 DA = DebouncedButton(BUTTONA)
 DB = DebouncedButton(BUTTONB)
 
-def watch_buttons ():
+def watchButtons ():
     global DA, DB
     DA.check()
     DB.check()
 
-def was_pressed (button = BUTTONAB):
+def wasPressed (button = BUTTONAB):
     global DA, DB
     if (button == BUTTONAB) and (DA.state() or DB.state()):
         DA.reset()
