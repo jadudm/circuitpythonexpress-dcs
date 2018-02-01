@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 from adafruit_circuitplayground.express import cpx
+from busio import UART
 import time
 # import board
 
@@ -30,48 +31,36 @@ BUTTONA     = 0
 BUTTONB     = 1
 BUTTONAB    = 2
 
-XAXIS       = 0
-YAXIS       = 1
-ZAXIS       = 2
+X           = 0
+Y           = 1
+Z           = 2
 
 RED         = 0
 GREEN       = 1
 BLUE        = 2
-YELLOW      = 3
-BLUEGREEN   = 4
-PURPLE      = 5
 
-
-def setBrightness (brightness = 10):
+def set_brightness (brightness = 10):
     cpx.pixels.brightness = (brightness / 100.0)
 
-def setupPixels (brightness = 10):
-    setBrightness(brightness)
+def setup_pixels (brightness = 10):
+    set_brightness(brightness)
     cpx.pixels.fill((0,0,0))
     cpx.pixels.show()
 
-def setAllPixelsTo (color = RED):
-    if color == RED:
-        setAllPixelsToRGB(255, 0, 0)
-    elif color == GREEN:
-        setAllPixelsToRGB(0, 255, 0)
-    elif color == BLUE:
-        setAllPixelsToRGB(0, 0, 255)
-        
-def setAllPixelsToRGB (red = 0, green = 0, blue = 0):
+def set_all_pixels_to (red = 0, green = 0, blue = 0):
     for i in range(10):
         cpx.pixels[i] = (red, green, blue)
 
-def setPixelRGB (ndx = 0, red = 0, green = 0, blue = 0):
+def set_pixel (ndx = 0, red = 0, green = 0, blue = 0):
     cpx.pixels[ndx] = (red, green, blue)
     
-def getPixelRGB (ndx = 0, color = None):
+def get_pixel (ndx = 0, color = None):
     if color:
         return cpx.pixels[ndx][color]
     else:
         return cpx.pixels[ndx][color]
 
-def colorWheel (pos):
+def color_wheel (pos):
 	if pos < 85:
 		return (pos * 3, 255 - pos * 3, 0)
 	elif pos < 170:
@@ -92,12 +81,12 @@ def graph (value, max):
             cpx.pixels[i] = color_wheel(int((i / 10.0) * 255.0))
 
 
-def setupSingleTap ():
+def setup_single_tap ():
     cpx.detect_taps = 1
-def setupDoubleTab ():
+def setup_double_tap ():
     cpx.detect_taps = 2
 
-def wasTapped ():
+def was_tapped ():
     return cpx.tapped
 
 # CONTRACT
@@ -107,30 +96,30 @@ def wasTapped ():
 # dimension given. Ranges from -9.8 to 9.8
 # I lied. It gets big. > 50 when shaken. Just using it as a 
 # tilt sensor, it ranges from -9.8 to 9.8... 
-def getAccel (DIM = XAXIS):
+def accel (DIM = X):
     return cpx.acceleration[DIM]
 
-def turnRedLED(onoroff):
+def red_led(onoroff):
     cpx.red_led = onoroff
 
-def isTouched(pin):
+def touch_on(pin):
     touches = [cpx.touch_A1, cpx.touch_A2, cpx.touch_A3, cpx.touch_A4, 
                 cpx.touch_A5, cpx.touch_A6, cpx.touch_A7 ]
     return touches[pin - 1]
 
-def getLux ():
+def get_lux ():
     return cpx.light
 
-def getTemperatureC ():
+def get_temperature ():
     return cpx.temperature
 
-def startTone (tone = 256):
+def play_tone (tone = 256):
     cpx.start_tone(tone)
 
-def stopTone ():
+def stop_tone ():
     cpx.stop_tone()
 
-def isPressed(button = BUTTONA):
+def is_pressed(button = BUTTONA):
     if (button == BUTTONA):
         return cpx.button_a
     else:
@@ -158,12 +147,12 @@ class DebouncedButton(object):
 DA = DebouncedButton(BUTTONA)
 DB = DebouncedButton(BUTTONB)
 
-def watchButtons ():
+def watch_buttons ():
     global DA, DB
     DA.check()
     DB.check()
 
-def wasPressed (button = BUTTONAB):
+def was_pressed (button = BUTTONAB):
     global DA, DB
     if (button == BUTTONAB) and (DA.state() or DB.state()):
         DA.reset()
@@ -175,3 +164,13 @@ def wasPressed (button = BUTTONAB):
     if (button == BUTTONB) and DB.state():
         DB.reset()
         return True
+
+uart = None
+def beginSerial (tx = 0, rx = 1, baudrate = 115200):
+    uart = UART(tx, rx, baudrate)
+
+def writeline (string):
+    uart.write(string)
+
+def readline ():
+    return uart.readline()
