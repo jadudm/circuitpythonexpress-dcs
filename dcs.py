@@ -42,6 +42,9 @@ BLUEGREEN   = 4
 PURPLE      = 5
 
 
+def pause (ms):
+    time.sleep(ms / 1000.0)
+
 def setBrightness (brightness = 10):
     cpx.pixels.brightness = (brightness / 100.0)
 
