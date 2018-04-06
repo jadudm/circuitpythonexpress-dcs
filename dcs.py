@@ -148,7 +148,7 @@ class DebouncedButton(object):
     
     def check (self):
         now = time.monotonic()
-        if is_pressed(self.button) and (now - self.last_pressed) > self.debounce:
+        if isPressed(self.button) and (now - self.last_pressed) > self.debounce:
             self.last_pressed = now
             self.was_pressed = True
     def reset (self):
